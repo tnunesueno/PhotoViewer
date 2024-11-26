@@ -1,15 +1,15 @@
 package com.example.demo;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Slider;
-import javafx.scene.control.Pagination;
-import javafx.scene.control.SplitMenuButton;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import javafx.stage.FileChooser;
 
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class HelloController {
@@ -22,8 +22,9 @@ public class HelloController {
     public MenuItem button4;
     public MenuItem button5;
     public Slider slider;
-    // ADD CHOOOSE BUTTON
 
+    public Button chooseButton;
+    ArrayList<Image> imageArray = new ArrayList<Image>();
 
     int imageNum =1;
     @FXML
@@ -40,7 +41,6 @@ public class HelloController {
         Image image4 = new Image(input4);
         Image image5 = new Image(input5);
 
-        ArrayList<Image> imageArray = new ArrayList<Image>();
         imageArray.add(image1);
         imageArray.add(image2);
         imageArray.add(image3);
@@ -67,30 +67,39 @@ public class HelloController {
             });
             //slider
           slider.setOnDragDetected(mouseEvent -> {
-                Double sliderValue = slider.getValue();
-                    if (sliderValue.intValue() <= 20) {
-                        pagination.setCurrentPageIndex(0);
-                    }
-                    if (sliderValue.intValue() >= 20 && sliderValue.intValue() <= 40) {
-                        pagination.setCurrentPageIndex(1);
-                    }
-                    if (sliderValue.intValue() >= 40 && sliderValue.intValue() <= 60) {
-                        pagination.setCurrentPageIndex(2);
-                    }
-                    if (sliderValue.intValue() >= 60 && sliderValue.intValue() <= 80) {
-                        pagination.setCurrentPageIndex(3);
-                    }
-                    if (sliderValue.intValue() >= 80 && sliderValue.intValue() <= 100) {
-                        pagination.setCurrentPageIndex(4);
-                }
-            });
-
+              Double sliderMax = slider.getMax();
+              Double sliderValue = slider.getValue();
+                int incrementSize = sliderMax.intValue()/imageArray.size();
+                int sliderChunk = sliderValue.intValue()/incrementSize;
+                  pagination.setCurrentPageIndex(sliderChunk);
+                  System.out.println("slider drag: sliderValue=" + sliderValue +  "incSize=" + incrementSize + " sliderChunk=" +  sliderChunk + " pageIndex=" + pagination.getCurrentPageIndex());
+              });
 
             imageView.setImage(imageArray.get(imageNum));
-         //   System.out.println("Hi Twyla " + pageIndex);
             return imageView;
         });
 
+    }
+
+    public void chooseButtonPressed() throws FileNotFoundException {
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(pagination.getScene().getWindow());
+        FileInputStream input6 = new FileInputStream(selectedFile);
+        Image chosenImage = new Image(input6);
+        imageArray.add(chosenImage);
+
+        pagination.setPageCount(6);
+        pagination.setCurrentPageIndex(6);
+
+        MenuItem newImage = new MenuItem("Your Image");
+        splitMenuButton.getItems().add(newImage);
+        newImage.setOnAction(event -> {
+            pagination.setCurrentPageIndex(6);
+        });
+
+        if(pagination.getCurrentPageIndex()==6){
+        imageView.setImage(imageArray.get(5));
+        }
 
     }
 
