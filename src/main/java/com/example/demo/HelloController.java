@@ -109,14 +109,14 @@ public class HelloController {
         String userText = textFieldTop.getText();
     System.out.println(userText);
     textTop.resize(0,50);
-  //  text.setFont(arial sans);
+   //textTop.setFont("Impact");
     textTop.setText(userText);
     }
     public void addTextBottom() throws Exception{
         String userText = textFieldBottom.getText();
         System.out.println(userText);
         textBottom.resize(0,50);
-        //  text.setFont(arial sans);
+        // textBottom.setFont(arial sans);
         textBottom.setText(userText);
     }
 
