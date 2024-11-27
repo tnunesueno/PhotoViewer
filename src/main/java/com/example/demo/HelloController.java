@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 
@@ -22,8 +23,11 @@ public class HelloController {
     public MenuItem button4;
     public MenuItem button5;
     public Slider slider;
-
+    public TextField textFieldTop;
+    public Text textTop;
+    public Text textBottom;
     public Button chooseButton;
+    public TextField textFieldBottom;
     ArrayList<Image> imageArray = new ArrayList<Image>();
 
     int imageNum =1;
@@ -100,7 +104,20 @@ public class HelloController {
         if(pagination.getCurrentPageIndex()==6){
         imageView.setImage(imageArray.get(5));
         }
-
+    }
+    public void addTextTop() throws Exception{
+        String userText = textFieldTop.getText();
+    System.out.println(userText);
+    textTop.resize(0,50);
+  //  text.setFont(arial sans);
+    textTop.setText(userText);
+    }
+    public void addTextBottom() throws Exception{
+        String userText = textFieldBottom.getText();
+        System.out.println(userText);
+        textBottom.resize(0,50);
+        //  text.setFont(arial sans);
+        textBottom.setText(userText);
     }
 
 }
